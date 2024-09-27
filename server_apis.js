@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 4000;
 const connectDB = require("./db/dbConnect");
 const Message = require("./db/message");  // Import the correct model name\
 const cors = require('cors');
@@ -27,6 +27,9 @@ app.post("/message", async (req, res) => {
         res.status(500).json({ error: 'Error Occurred' });
     }
 });
+app.get("/", (req,res)=>{
+    res.send("Hello World");
+})
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
