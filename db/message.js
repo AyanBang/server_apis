@@ -12,6 +12,10 @@ const MessageSchema = new mongoose.Schema({
     message:{
         type:String,
         required:true
+    },
+    time: {
+        type: Date,
+        default: Date.now // This will set the current date and time
     }
 })
 const message = mongoose.model("Message",MessageSchema);
