@@ -47,6 +47,23 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+app.post("/starred", async (req, res) => {
+  const { id, starred } = req.body;
+
+  // Use `findById` to get the document directly by ID
+  const mail = await Mails.findById(id);
+  if (!mail) return res.status(404).send("Mail not found");
+
+  // Update the `starred` field
+  mail.starred = starred;
+
+  // Save the updated document
+  await mail.save();
+
+  res.send(mail);
+  console.log(mail);
+  console.log(mail.starred);
+});
 app.post("/mailbyid", async(req,res)=>{
   try {
     const { id } = req.body;
