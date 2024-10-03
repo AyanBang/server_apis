@@ -64,23 +64,29 @@ app.post("/starred", async (req, res) => {
   console.log(mail);
   console.log(mail.starred);
 });
-app.post("/mailbyid", async(req,res)=>{
+app.post("/mailbyid", async (req, res) => {
   try {
     const { id } = req.body;
 
-    // Fetch all rows where reciever matches the provided email
-    const mailData = await Mails.find({ _id: id });
+    // Fetch the document by its unique ID
+    const mailData = await Mails.findById(id);
 
-    if (mailData.length === 0) {
+    if (!mailData) {
       return res.status(404).json({ message: "No inbox data found for this email" });
     }
 
-    
+    // Set the `read` status to true
+    if (mailData.read == false) {
+      mailData.read = true;
+      await mailData.save();
+    }
+
     res.status(200).json(mailData);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
+
 })
 // Login Route
 app.post("/login", async (req, res) => {
